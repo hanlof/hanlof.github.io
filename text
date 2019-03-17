@@ -1,0 +1,19 @@
+We believe that great programmers are more practical than theoretical. Sometimes a little theory
+
+As someone who taught myself programming through experimenting, reading reference documentation 
+and studying other peoples code
+my perspective is that academia not only is unnecesary in our craft but more than that I daily
+see the damage that it causes.
+
+When I had learned basic, pascal, assembler and C, and started to look at perl, was when i realised
+that the things that different programming languages have in common are far more than what differs
+between them. The common things being conditions, loops, arithmetics, assignments and wrapping it
+all up in function calls, are universal and if you understand that the stntax becomes just a shell.
+Not really like learning a new language but more like learning a dialect of the /same/ language.
+
+Excercises: Start building code with implementation, actual code that does stuff, then work out the structure.
+
+It may be good to have a plan but remember that you are not building a "house" because you can always change the structure
+at any point in time (this only becomes difficult if you have too much structure to begin with.
+The more you build the more you learn about your codebase and then it becomes easier to know what
+"good" structure actually is.
