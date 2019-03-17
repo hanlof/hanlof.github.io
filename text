@@ -1,15 +1,26 @@
 We believe that great programmers are more practical than theoretical. Sometimes a little theory
+may help but really, it's mostly a practical craft. Experience is worth a hundred times more than
+knowledge. And indeed the same is true for many things but in particular it's true for human
+languages as well as for programming languages.
 
 As someone who taught myself programming through experimenting, reading reference documentation 
-and studying other peoples code
-my perspective is that academia not only is unnecesary in our craft but more than that I daily
-see the damage that it causes.
+and studying other peoples code my perspective is that academia not only is unnecesary in our craft
+but more than that I daily see the damage that it causes.
+
+Academia is not really in a position to teach programming in a practical way because what they teach
+needs to have "academic" value. Sorry to all of you who went through years of academic studies to
+become a programmer.
 
 When I had learned basic, pascal, assembler and C, and started to look at perl, was when i realised
 that the things that different programming languages have in common are far more than what differs
 between them. The common things being conditions, loops, arithmetics, assignments and wrapping it
 all up in function calls, are universal and if you understand that the stntax becomes just a shell.
-Not really like learning a new language but more like learning a dialect of the /same/ language.
+Not really like you are listening to an unfamiliar language but more like listening to an
+unfamiliar accent of the /same/ language. Sure scottish may sound a bit funny but you probably get most of it!
+That's when I stopped counting the number of computer "languages" that I know.
+Now you may say that reading code is not the same as writing it but if you can read and understand code
+then you can copy it! And then you can adapt it. And you can change it ad many times as you want until
+it works and in that process you will pick up how to write it!
 
 Excercises: Start building code with implementation, actual code that does stuff, then work out the structure.
 
