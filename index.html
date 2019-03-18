@@ -2,6 +2,7 @@
 <html>
 <head>
 <style>
+@keyframes dropdown { 0% { top: 0px; } 100% { top: 100px } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
 @keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 .outline { text-shadow: -1px -1px 0 #0F0; }
@@ -12,7 +13,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
 </head>
 <body bgcolor=black text=white>
-<div style="margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace;">
+<div id=container style="margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace;">
 <div style="position: relative; animation: mymovex 3s infinite; }">XXX</div><h3>
 <pre id=mytext>
 Hi coder.
@@ -43,15 +44,26 @@ We hope that you have an open mind.
 // todo: [non-code] compile list of types of assignments
 // todo: [non-code] prioritise types of assignments
 function click1() {
+  //var container = document.getElementById("container");
   var mytext = document.getElementById("mytext");
   var original = mytext.innerHTML;
-  var s = mytext.innerHTML.substr(0, 16) + "<span id=freeElement>" + 'Q' + "</span>" + mytext.innerHTML.substr(17);
+  var s = original.substr(0, 16) + "<span id=freeElement>" + 'u' + "</span>" + mytext.innerHTML.substr(17);
   mytext.innerHTML = s;
   var freeElement = document.getElementById("freeElement");
   var rect = freeElement.getBoundingClientRect();
-  console.log(rect.top, rect.right, rect.bottom, rect.left);
-  mytext.insertAdjacentElement(freeElement);
-  mytext.innerHTML = original;
+  var ofsX = window.pageXOffset + rect.left;
+  var ofsY = window.pageYOffset + rect.top;
+  //console.log(rect.top, rect.right, rect.bottom, rect.left);
+  mytext.innerHTML = original.substr(0, 16) + " " + original.substr(17);
+
+  console.log(freeElement.offsetLeft, freeElement.offsetTop);
+
+  freeElement.style.position = "absolute"
+  freeElement.style.left = ofsX + "px"
+  freeElement.style.top = ofsY + "px"
+  mytext.insertAdjacentElement("afterend", freeElement);
+
+  //freeElement.style.animation = "dropdown 3s infinite";
   //window.alert(mytext.innerHTML[12]);
 }
 
