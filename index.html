@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
+<style>
+@keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
+@keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
+.outline { text-shadow: -1px -1px 0 #0F0; }
+</style>
+
 <!-- KaTeX stuff -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.10.0/dist/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
 </head>
 <body bgcolor=black text=white>
 <div style="margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace;">
-<h3>
-Hi coder.<br/>
+<div style="position: relative; animation: mymovex 3s infinite; }">XXX</div><h3>
+<pre id=mytext>
+Hi coder.
+
 Do you believe that writing computer
 programs is about understanding templates,
-class inheritance, patterns, the latest
-and greatest new technology and frameworks?!<br/>
-Good!<br/>
-This site is here to offer you new
-perspectives. :-)<br/>
+class inheritance, patterns, the <span style="position: relative; animation: flash 1s">latest</span>
+and greatest new technology and frameworks?!
+Good!
+This site is here to offer you new perspectives. ;-)
 We hope that you have an open mind.
+</pre>
 </h3>
 </div>
-  <!--
-<input id=input type=text/ onSubmit="click1();">
 <button onclick="click1();">Click</button>
+<!--
+<input id=input type=text/ onSubmit="click1();">
 <div id=main style="background-color: lightgrey;" >xxx</div>
 <div id=cool style="background-color: lightgrey;" >xxx</div>
 -->
@@ -35,14 +43,16 @@ We hope that you have an open mind.
 // todo: [non-code] compile list of types of assignments
 // todo: [non-code] prioritise types of assignments
 function click1() {
-  var input = document.getElementById("input").value;
-  var div = document.getElementById("main");
-
-  var a = algebra.parse(input);
-  var b = a.solveFor("x");
-
-  katex.render(algebra.toTex(a), cool);
-  div.innerHTML=b.toString();
+  var mytext = document.getElementById("mytext");
+  var original = mytext.innerHTML;
+  var s = mytext.innerHTML.substr(0, 16) + "<span id=freeElement>" + 'Q' + "</span>" + mytext.innerHTML.substr(17);
+  mytext.innerHTML = s;
+  var freeElement = document.getElementById("freeElement");
+  var rect = freeElement.getBoundingClientRect();
+  console.log(rect.top, rect.right, rect.bottom, rect.left);
+  mytext.insertAdjacentElement(freeElement);
+  mytext.innerHTML = original;
+  //window.alert(mytext.innerHTML[12]);
 }
 
 function kalle() {
