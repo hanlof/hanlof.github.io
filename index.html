@@ -1,68 +1,83 @@
 <!DOCTYPE html>
-<html>
-<head>
+<!-- saved from url=(0028)http://www.codersbefree.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
-@keyframes dropdown { 0% { top: 0px; } 100% { top: 100px } }
+@keyframes dropdown { 0% { top: 0px; background-color: #F00; } 100% { top: 100px; background-color: #000; } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
 @keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 .outline { text-shadow: -1px -1px 0 #0F0; }
 </style>
 </head>
-<body bgcolor=black text=white>
-<div style="position: relative; height: auto;">
-<div style="position: absolute;"> kalle </div>
-<div style="position: absolute;"> kalle2 </div>
-<div style="position: relative;"> kalle3 </div>
-</div>
+<body bgcolor="black" text="white">
 <!-- <div style="position: relative; animation: mymovex 3s infinite; }">XXX</div> -->
-<div id=container style="position: relative; margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace; font-size: 120%;">
-<pre id=mytext style="position: relative;">
-XXX XX XXXXXX XX  XXX XXXXXXX XXX
-XXXX XX XXXXX XX  XXX XXXXXX XXX
-XXXX XXX XXXX XXXXXX XX  XXX XXXXXXX XXX
-XXX XX XXXX XX  XXX XXXXX XXX
-XXXX XXX XX XXXXX XX  XXX XXXXXXX XXX
-XXXX XXX XX XXXXXX XX  XXX XXXXX XXX
-<!--
+<div id="container" style="position: relative; margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace; font-size: 120%;">
+<pre id="mytext" style="position: relative;">
 Hi coder.
 
 Do you believe that mastering computer
 programming is about understanding templates,
-class inheritance, patterns, the <span style="position: relative; animation: flash 1s">latest</span>
+class inheritance, patterns, the latest
 and greatest new technology and frameworks?!
 Good!
 This site is here to offer you new perspectives. ;-)
-We hope that you have an open mind.-->
+We hope that you have an open mind.
 </pre>
 </div>
 <div>
 <button onclick="click1();">Click</button>
 </div>
-</body>
-<html>
 
 <script>
-function findRandomLetter(s)
+function findRandomWord(s, minlen)
 {
-  var l = Math.floor(Math.random() * (s.length - 1))
 	  // TODO what characters are acceptable?
 	  // TODO re-randomize on unacceptable char or just step?!
-  return l;
+  start = -1;
+  var alts = [];
+  for (i = 0; i < s.length; i++) {
+    var ok = "\n\t\ ,.".indexOf(s[i]) == -1;
+	if (ok && start == -1) {
+	  start = i;
+	  continue;
+	}
+    if (!ok && start > -1) {
+	  if ((i - start) >= minlen) {
+	    alts.push([start, i]);
+	  }
+	  start = -1;
+	}
+  }
+  console.debug(alts);
+  var r = Math.floor(Math.random() * (alts.length));  
+  return alts[r];
+}
+
+
+function animDone()
+{
+  console.debug("done!");
+  // need to store original word and position somehow!
+  // inside the element? (text is there)
+  // global table??
+  //this.remove();
 }
 
 function click1() {
   //var container = document.getElementById("container");
   var mytext = document.getElementById("mytext");
   var originalText = mytext.innerHTML;
-  r = findRandomLetter(originalText);
-  console.debug(r + " " + originalText[r]);
-  return;
-  var s = originalText.substr(0, 15) + "<span id=anchorElement><span id=freeElement>" + originalText[15] + "</span></span>" + mytext.innerHTML.substr(16);
+  r = findRandomWord(originalText, 5);
+  console.debug(r + " " + originalText.substr(r[0], r[1] - r[0]));
+
+  var s = originalText.substr(0, r[0]) + "<span id=anchorElement><span style=\"background-color: red;\" id=freeElement>"
+    + originalText.substr(r[0], r[1] - r[0]) + "</span></span>" + mytext.innerHTML.substr(r[1]);
+
   mytext.innerHTML = s;
+
   var anchorElement = document.getElementById("anchorElement");
   var ofsX = anchorElement.offsetLeft + anchorElement.parentNode.offsetLeft;
   var ofsY = anchorElement.offsetTop + anchorElement.parentNode.offsetTop;
-  mytext.innerHTML = originalText.substr(0, 16) + " " + originalText.substr(17);
+  mytext.innerHTML = originalText.substr(0, r[0]) + (" ".repeat(r[1] - r[0])) + originalText.substr(r[1]);
 
   anchorElement.style.position = "absolute"
   anchorElement.style.left = ofsX + "px"
@@ -71,14 +86,15 @@ function click1() {
 
   //freeElement.style.animation = "dropdown 3s infinite";
   var fE = document.getElementById("freeElement");
+  fE.addEventListener("animationend", animDone);
   fE.style.position = "relative";
-  fE.style.animation = "dropdown 3s infinite";
+  fE.style.animation = "dropdown 3s";
   //window.alert(mytext.innerHTML[12]);
 }
-
 
 </script>
 
 <script>
 </script>
 
+</body></html>
