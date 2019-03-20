@@ -2,7 +2,7 @@
 <!-- saved from url=(0028)http://www.codersbefree.com/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
-@keyframes dropdown { 0% { top: 0px; background-color: #F00; } 100% { top: 100px; background-color: #000; } }
+@keyframes dropdown { 0% { top: 0px; background-color: #000; } 100% { top: 100px; background-color: #000; } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
 @keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 .outline { text-shadow: -1px -1px 0 #0F0; }
@@ -47,34 +47,35 @@ function findRandomWord(s, minlen)
 	  start = -1;
 	}
   }
-  console.debug(alts);
-  var r = Math.floor(Math.random() * (alts.length));  
+  var r = Math.floor(Math.random() * (alts.length));
   return alts[r];
 }
 
-
-function animDone()
+function reInsertElem(parentElem, textPos)
 {
-  console.debug("done!");
-  // need to store original word and position somehow!
-  // inside the element? (text is there)
-  // global table??
-  //this.remove();
+  var s = parentElem.innerHTML.substr(0, textPos) + this.innerText + parentElem.innerHTML.substr(textPos + this.innerText.length);
+  parentElem.innerHTML = s;
+  anchor = this.parentElement;
+  this.remove();
+  anchor.remove();
 }
 
+var freeElementCounter = 1;
+
 function click1() {
-  //var container = document.getElementById("container");
   var mytext = document.getElementById("mytext");
   var originalText = mytext.innerHTML;
   r = findRandomWord(originalText, 5);
-  console.debug(r + " " + originalText.substr(r[0], r[1] - r[0]));
 
-  var s = originalText.substr(0, r[0]) + "<span id=anchorElement><span style=\"background-color: red;\" id=freeElement>"
+  aName = "anchorElement" + freeElementCounter;
+  eName = "freeElement" + freeElementCounter;
+  freeElementCounter++;
+  var s = originalText.substr(0, r[0]) + "<span id=" + aName + "><span id=" + eName + ">"
     + originalText.substr(r[0], r[1] - r[0]) + "</span></span>" + mytext.innerHTML.substr(r[1]);
 
   mytext.innerHTML = s;
 
-  var anchorElement = document.getElementById("anchorElement");
+  var anchorElement = document.getElementById(aName);
   var ofsX = anchorElement.offsetLeft + anchorElement.parentNode.offsetLeft;
   var ofsY = anchorElement.offsetTop + anchorElement.parentNode.offsetTop;
   mytext.innerHTML = originalText.substr(0, r[0]) + (" ".repeat(r[1] - r[0])) + originalText.substr(r[1]);
@@ -84,12 +85,10 @@ function click1() {
   anchorElement.style.top = ofsY + "px"
   mytext.insertAdjacentElement("afterend", anchorElement);
 
-  //freeElement.style.animation = "dropdown 3s infinite";
-  var fE = document.getElementById("freeElement");
-  fE.addEventListener("animationend", animDone);
+  var fE = document.getElementById(eName);
+  fE.addEventListener("animationend", reInsertElem.bind(fE, mytext, r[0]) );
   fE.style.position = "relative";
-  fE.style.animation = "dropdown 3s";
-  //window.alert(mytext.innerHTML[12]);
+  fE.style.animation = "dropdown 1s";
 }
 
 </script>
