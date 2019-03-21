@@ -5,6 +5,7 @@
 @keyframes dropdown { 0% { top: 0px; background-color: #000; } 100% { top: 100px; background-color: #000; } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
 @keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
+@keyframes warning { 0% { color: #F00; } 50% { color: #800; } 100% { color: #F00; } }
 .outline { text-shadow: -1px -1px 0 #0F0; }
 </style>
 </head>
@@ -22,6 +23,9 @@ Good!
 This site is here to offer you new perspectives. ;-)
 We hope that you have an open mind.
 </pre>
+<div>
+	<h2 style="color: red;">Global abstraction level: <span style="animation: warning 2s infinite;">HIGH</span></h2>
+</div>
 </div>
 <div>
 <button onclick="click1();">Click</button>
