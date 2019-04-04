@@ -6,6 +6,8 @@
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
 @keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 @keyframes warning { 0% { color: #F00; } 50% { color: #800; } 100% { color: #F00; } }
+@keyframes spin { 0% {transform:rotate(10deg);} 100% {transform:rotate(360deg);} }
+@keyframes translate { 0% {transform:translate(0);} 100% {transform:translate(70);} }
 .outline { text-shadow: -1px -1px 0 #0F0; }
 </style>
 </head>
@@ -24,17 +26,17 @@ This site is here to offer you new perspectives. ;-)
 We hope that you have an open mind.
 </pre>
 <div>
+	<!-- play with keys! :-)
 	<h2 style="color: red;">Global abstraction level: <span style="animation: warning 2s infinite;">HIGH</span></h2>
 	<h2>What is your abstraction level?</h2>
-	<!-- play with keys! :-)
-        This will not be for everyone. Coders (prople in general) trnd to have an ego that prevents us from
-        cvanging viewpoints and especially admitying that our ideas were not the best.
+        This will not be for everyone. Coders (people in general) tend to have an ego that prevents us from
+        changing viewpoints and especially admitting that our ideas were not the best.
 
-        we will not call class defnitions code. Code is the text that produces tje machine instructions that
+        We will not call class definitions code. Code is the text that produces the machine instructions that
         controls the behaviour of your program. Not the meta-information that defines the "architecture"
-        
+
         Do not be so quick to produce a class as soon as you think of a concept that your program needs.
-        This is the great phallacy of modern computer program design. The problems with objects/classes are many
+        This is the great fallacy of modern computer program design. The problems with objects/classes are many
         and outlined in detail elsewhere. The problem is that academia had not taught you another way to tackle
         programming. It's not your fault!
         Imagine if you strip away all none-code from your code. Your program just might get so small and so simple
@@ -43,6 +45,22 @@ We hope that you have an open mind.
         Use abstraction but use it wisely! Global abstraction level: ALARMINGLY HIGH!!!
 
         Why is the ego so invested in code that we write?!? Requires pondering...
+
+        Don't be so quick to use generic principles. Use discernment. Use common sense. Think for yourself! This
+        applies to many things.
+
+	A few key points.
+
+	NAMESPACES
+	Honestly, do you think that namespaces are helping or hindering you in your daily work?
+
+	The whole idea of doing something "just in case it's needed" is not good practice.
+	In fact it is very harmful.
+	Please consider just how many different things you could add "just in case it's needed"
+	[ insert example ] and then honestly look at why you chose the particular one that you did.
+	Doing something "just in case it's needed later" is not something you would apply to everyday life.
+	If you go to shop groceries you will not rent a trailer "just in case you're gonna need it".
+	If you build a house you're not going to 
 -->
 </div>
 </div>
@@ -82,6 +100,7 @@ function reInsertElem(parentElem, textPos)
 }
 
 var freeElementCounter = 1;
+var effects = []
 
 function click1() {
   var mytext = document.getElementById("mytext");
@@ -104,12 +123,16 @@ function click1() {
   anchorElement.style.position = "absolute"
   anchorElement.style.left = ofsX + "px"
   anchorElement.style.top = ofsY + "px"
+  //anchorElement.style.animation = "spin 0.5s";
   mytext.insertAdjacentElement("afterend", anchorElement);
 
   var fE = document.getElementById(eName);
   fE.addEventListener("animationend", reInsertElem.bind(fE, mytext, r[0]) );
   fE.style.position = "relative";
   fE.style.animation = "dropdown 1s";
+  //fE.style.animation = "translate 3s";
+  //fE.style.transformOrigin = "0 0";
+  //fE.style.transform = "rotate(45deg)";
 }
 
 </script>
