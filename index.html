@@ -2,19 +2,19 @@
 <!-- saved from url=(0028)http://www.codersbefree.com/ -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <style>
-@keyframes dropdown { 0% { top: 0px; background-color: #000; } 100% { top: 100px; background-color: #000; } }
+@keyframes dropdown { 0% { top: 0px; } 100% { top: 100px; } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
-@keyframes flash { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
+@keyframes flash { 0% { text-shadow: 0px 0px 1px #FFF } 100% { text-shadow: 0px 0px 3px #FFF } }
+@keyframes flash2 { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 @keyframes warning { 0% { color: #F00; } 50% { color: #800; } 100% { color: #F00; } }
 @keyframes spin { 0% {transform:rotate(10deg);} 100% {transform:rotate(360deg);} }
 @keyframes translate { 0% {transform:translate(0);} 100% {transform:translate(70);} }
 .outline { text-shadow: -1px -1px 0 #0F0; }
 </style>
 </head>
-<body bgcolor="black" text="white">
-<!-- <div style="position: relative; animation: mymovex 3s infinite; }">XXX</div> -->
-<div id="container" style="position: relative; margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace; font-size: 120%;">
-<pre id="mytext" style="position: relative;">
+<body bgcolor="black" onkeydown="keyPressed();" text="white" onload="onLoadCallback();">
+<div id="container" style="position: relative; margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace; ">
+<pre id="mytext" style="position: relative; font-size: 120%;">
 Hi coder.
 
 Do you believe that mastering computer
@@ -25,12 +25,63 @@ Good!
 This site is here to offer you new perspectives. ;-)
 We hope that you have an open mind.
 </pre>
+<pre>
+It is not clear to all but it is clear to those
+with open eyes and unbiased thinking that computer
+programming is about the code.
+Now let's be very clear about the fact that class
+definitions are something that merely structures
+your code (in a way that is understood by many to
+be understandable and reusable).
+Class definitions does not actually contain code
+in the sense that they produce any machine
+instructions worth mentioning. They say nothing
+about program flow or the actual work being done
+by your program.
+When the human mind tries to understand your
+program they are simply noice. Given the benefit
+of the doubt they are merely just harmless noice
+but seing how they are being used all too often
+they are no less than obstructing, obscuring and
+hiding the real code.
+
+Think about this.
+
+If you want to strive for mastery then really
+think about this!
+
+Now shift your focus to the wisdom that speaks
+about the importance of always having a good
+foundation.
+
+The foundation in the craft of getting a computer
+to do what you want is
+* Manipulating memory (variables)
+* Jumping to certain locations in your
+  program given certain conditions (ifs, loops,
+  calling functions, returning from functions)
+and
+* Communicating with parts of the computer that is
+  outside of the processor and the memory (screen,
+  keyboard, mouse, network adapter, storage
+  devices)
+
+It is not
+* (A/O)bstructing your code with class hierarchies
+* Trying to squeeze every aspect of your program
+  into "human understandable" objects
+* Using fancy language-specific tricks that makes
+  you feel clever
+
+This is not for everyone. Many of you will already
+have been offended by these statements.
+
+We hope that you still have an open mind...
+</pre>
 <div>
 	<!-- play with keys! :-)
-	<h2 style="color: red;">Global abstraction level: <span style="animation: warning 2s infinite;">HIGH</span></h2>
-	<h2>What is your abstraction level?</h2>
-        This will not be for everyone. Coders (people in general) tend to have an ego that prevents us from
-        changing viewpoints and especially admitting that our ideas were not the best.
+        This will not be for everyone. Coders (prople in general) tend to have an ego that prevents us from
+        cvanging viewpoints and especially admitying that our ideas were not the best.
 
         We will not call class definitions code. Code is the text that produces the machine instructions that
         controls the behaviour of your program. Not the meta-information that defines the "architecture"
@@ -65,14 +116,28 @@ We hope that you have an open mind.
         CODING METOD
         IMPLEMENTATION FIRST! DONT SPLIT WORK THAT IS CONNECTED.
 -->
-	
 
 </div>
+<div style="position: relative; border: 1px solid grey; align: center;">
+<h2>What is your abstraction level?</h2>
+<!--	<h2 style="color: red;">Global abstraction level: <span style="animation: warning 2s infinite;">HIGH</span></h2> -->
+<!-- <h2>What is your abstraction level?</h2> -->
+<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
+write(STDOUT, "Hello, Hans", 11);
+</pre>
+<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
+printf("Hello, Hans");
+</pre>
+<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
+cout << "Hello, Hans";
+</pre>
+<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
+name = "Hans"
+</pre>
 </div>
-<div>
+
+
 <button onclick="click1();">Click</button>
-</div>
-
 <script>
 function findRandomWord(s, minlen)
 {
@@ -129,20 +194,42 @@ function click1() {
   anchorElement.style.left = ofsX + "px"
   anchorElement.style.top = ofsY + "px"
   //anchorElement.style.animation = "spin 0.5s";
+  anchorElement.style.zIndex = "4";
   mytext.insertAdjacentElement("afterend", anchorElement);
 
   var fE = document.getElementById(eName);
   fE.addEventListener("animationend", reInsertElem.bind(fE, mytext, r[0]) );
   fE.style.position = "relative";
+  fE.style.backgroundColor = "rgba(0,0,0,0)";
+  fE.style.backgroundRepeat = "repeat";
+  fE.style.zIndex = "5";
+  fE.style.textShadow = "0px 0px 2px black";
   fE.style.animation = "dropdown 1s";
   //fE.style.animation = "translate 3s";
   //fE.style.transformOrigin = "0 0";
   //fE.style.transform = "rotate(45deg)";
 }
 
-</script>
+function startAnimation()
+{
+	click1();
+	timeout = 20000;
+	setTimeout(startAnimation, timeout);
+}
 
-<script>
+function onLoadCallback()
+{
+	timeout = 5000;
+	setTimeout(startAnimation, timeout);
+}
+
+function keyPressed()
+{
+	var event = window.event ? window.event : e;
+	console.log("kalle " + event + " " + event.keyCode);
+	// left up right down
+	// 37 38 39 40
+}
 </script>
 
 </body></html>
