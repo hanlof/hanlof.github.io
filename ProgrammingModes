@@ -4,5 +4,15 @@ So. Anyone recognize this?
 2. Start filling the classes with functions and connect them togetger,
    discovering new class dependencies and new classes that you need as you go.
 
+-----
+Design decisions
+naming decisions
+what to do next decisions
+bug hunting
+changing/adding code
+learning apis/interfaces
+ - what to learn? exact syntax or concepts?
+ - you learn all the time! good argument for having to look up stuff versus knowing everything
+testing
 
 
