@@ -13,8 +13,8 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-12">
-          <h1 class="text-left">Western Horoscope JS Demo</h1>
-          <h5>A horoscope library for producing Western / Hellenistic horoscope charts.</h5>
+          <h1 class="text-left">Interacvive Horoscope</h1>
+          <h5>Based upon CircularNatalHoroscopeJs and AstroChart</h5>
         </div>
       </div>
       <div class="row">
@@ -23,11 +23,11 @@
             <div class="form-row">
               <div class="form-group col-md-6">
                 <label>Latitude (decimal)</label>
-                <input class="form-control" id="latitude" name="latitude" type="number" step="any" min="-90" max="90" value="42.37"></input>
+                <input class="form-control" id="latitude" name="latitude" type="number" step="any" min="-90" max="90" value="57.708870"></input>
               </div>
               <div class="form-group col-md-6">
                 <label>Longitude (decimal)</label>
-                <input class="form-control" id="longitude" name="longitude" type="number" step="any" min="-180" max="180" value="-71.11"></input>
+                <input class="form-control" id="longitude" name="longitude" type="number" step="any" min="-180" max="180" value="11.974560"></input>
               </div>
             </div>
             <div class="form-group">
@@ -87,19 +87,40 @@
               </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <div id=datebox>date</div>
           </form>
         </div>
       </div>
-      <div id="chart" style="background-color: #002b36">
+      <div id="chart">
 
       </div>
+      <div id=datebox>date</div>
 
 <style>
-.slider { width: 500px; vertical-align: center }
+.slider {
+  width: 500px;
+  vertical-align: center;
+  background: #ccc;
+  border-radius: 5px;
+}
 datalist {
   display: flex;
   justify-content: space-between;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  width: 2em; /* Set a specific slider handle width */
+  height: 2em; /* Slider handle height */
+  /* background: #04AA6D; */ /* Green background */
+  background: #cca; /* Green background */
+  cursor: pointer; /* Cursor on hover */
+}
+
+.slider::-moz-range-thumb {
+  width: 2em; /* Set a specific slider handle width */
+  height: 2em; /* Slider handle height */
+  background: #cca; /* Green background */
+  cursor: pointer; /* Cursor on hover */
 }
 </style>
       <table>
