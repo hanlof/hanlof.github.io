@@ -90,11 +90,6 @@
           </form>
         </div>
       </div>
-      <div id="chart">
-
-      </div>
-      <div id=datebox>date</div>
-
 <style>
 .slider {
   width: 500px;
@@ -123,6 +118,14 @@ datalist {
   cursor: pointer; /* Cursor on hover */
 }
 </style>
+
+      <span id="chart" >
+
+      </span>
+
+      <span style="display:inline-block; vertical-align: top; ">
+	      <span id=datebox style="font-size: 1.2em">date</span>
+
       <table>
           <tr><td>&nbsp;</td>
           <td><datalist id=minutelabels>
@@ -160,6 +163,27 @@ datalist {
               </datalist></td></tr>
           <tr><td>Years</td><td><input class=slider type="range" id="yearslider" name="slider4" min="0" max="1000" value=500 steps=1 width=500px list=monthlabels><br/></td></tr>
       </table>
+      <br/>
+<style>
+input.customcheckbox:checked {
+	appearance: none;
+	/*background: linear-gradient(to right, #ccc 0%, #333 100%);*/
+	background: #345;
+}
+input.customcheckbox {
+	appearance: none;
+	width: 2em;
+	height: 2em;
+	/*background: linear-gradient(to right, #333 0%, #ccc 100%);*/
+	background: #ccc;
+	border: 1px solid black;
+	border-radius:5px;
+}
+</style>
+      Keep zodiac in fixed position <input class=customcheckbox id=fixedzodiac type=checkbox checked />
+      
+      <!--<br/>Fun checkbox: <input class=customcheckbox type=checkbox min=0 max=100 steps=1 /> -->
+      </span>
 
       <hr />
       <div class="row">
