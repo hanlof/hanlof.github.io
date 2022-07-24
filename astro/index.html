@@ -8,6 +8,29 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script type='text/javascript' src='https://d3js.org/d3.v4.min.js'></script>
+  <script type='text/javascript' src='https://d3js.org/topojson.v3.min.js'></script>
+  <script type='text/javascript' src='./earthjs.js'></script>
+
+  <style media="screen">
+  .countries path {
+      fill: rgb(50, 200, 50);
+      stroke: rgb(50, 255, 50);
+      stroke-linejoin: round;
+      stroke-width: 0.8;
+      opacity: 1;
+  }
+  .graticule path {
+      fill: none;
+      opacity: 0.2;
+      stroke: white;
+      stroke-width: 0.5;
+  }
+  .ocean {
+      fill: #2020cf;
+  }
+</style>
   </head>
   <body>
     <div class="container-fluid">
@@ -20,24 +43,6 @@
       <div class="row">
         <div class="col-12 col-md-8">
           <form id="form">
-            <div class="form-row">
-              <div class="form-group col-md-6">
-                <label>Latitude (decimal)</label>
-                <input class="form-control" id="latitude" name="latitude" type="number" step="any" min="-90" max="90" value="57.708870"></input>
-              </div>
-              <div class="form-group col-md-6">
-                <label>Longitude (decimal)</label>
-                <input class="form-control" id="longitude" name="longitude" type="number" step="any" min="-180" max="180" value="11.974560"></input>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Date of birth</label>
-              <input class="form-control" id="date" name="date" type="date" value="1981-07-13"></input>
-            </div>
-            <div class="form-group">
-              <label>Local Time of birth</label>
-              <input class="form-control" id="time" name="time" type="time" value="11:22:00"></input>
-            </div>
             <div class="form-group">
               <label>Language</label>
               <select id="language-select"></select>
@@ -66,25 +71,6 @@
                   </div>
                 </div>
               </div>
-              <div class="col-6">
-                <div class="form-group">
-                  <label>Aspect Orbs:</label>
-                  <div class="row">
-                    <div class="col-6">
-                      <label>Major Aspects</label>
-                      <div id="major-aspect-inputs">
-
-                      </div>
-                    </div>
-                    <div class="col-6">
-                      <label>Minor Aspects</label>
-                      <div id="minor-aspect-inputs">
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
           </form>
@@ -92,7 +78,7 @@
       </div>
 <style>
 .slider {
-  width: 500px;
+  width: 400px;
   vertical-align: center;
   background: #ccc;
   border-radius: 5px;
@@ -121,73 +107,169 @@ datalist {
 }
 </style>
 
-      <span id="chart" >
+<style>
+input.customcheckbox:checked {
+    appearance: none;
+    /*background: linear-gradient(to right, #ccc 0%, #333 100%);*/
+    background: #345;
+}
+input.customcheckbox {
+    appearance: none;
+    width: 2em;
+    height: 2em;
+    /*background: linear-gradient(to right, #333 0%, #ccc 100%);*/
+    background: #ccc;
+    border: 1px solid black;
+    border-radius:5px;
+}
+</style>
+    <span id="chart">
 
-      </span>
+    </span>
+    <div style="display: inline-block; vertical-align: top;">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label>Latitude (decimal)</label>
+                <input class="form-control" id="latitude" name="latitude" type="number" step="any" min="-90" max="90" value="57.708870"></input>
+              </div>
+              <div class="form-group col-md-6">
+                <label>Longitude (decimal)</label>
+                <input class="form-control" id="longitude" name="longitude" type="number" step="any" min="-180" max="180" value="11.974560"></input>
+              </div>
+            </div>
+	    <div style="display: inline-block; vertical-align: top; filter: drop-shadow(0px 0px 7px grey)" >
+	      <svg id="earth-js"  width=400 height=400 onclick="myclick(this, event)"></svg>
+	    </div>
+    </div>
+  <script>
+    const g = earthjs({rotate: [30, -20, 0]})
+    .register(earthjs.plugins.oceanSvg())
+    .register(earthjs.plugins.graticuleSvg())
+    .register(earthjs.plugins.worldSvg('./world-110m.json'))
+    .register(earthjs.plugins.fauxGlobeSvg())
+    .register(earthjs.plugins.clickCanvas())
+    .register(earthjs.plugins.zoomPlugin())
+    .register(earthjs.plugins.mousePlugin())
+    .register(earthjs.plugins.barSvg());
 
-      <span style="display:inline-block; vertical-align: top; ">
-	      <span id=datebox style="font-size: 1.2em">date</span>
+    document.getElementById("longitude").addEventListener("change", lnglatChg);
+    document.getElementById("latitude").addEventListener("change", lnglatChg);
 
-      <table>
-          <tr><td>&nbsp;</td>
-          <td><datalist id=minutelabels>
+    function lnglatChg(elem, event) {
+      var lng = document.getElementById("longitude").value;
+      var lat = document.getElementById("latitude").value;
+      setPos([lng, lat]);
+      window.chartObject.handleSubmit();
+    }
+
+    g.ready(function(){
+        var lng = document.getElementById("longitude").value;
+        var lat = document.getElementById("latitude").value;
+        longlat = [ lng, lat ];
+        g.barSvg.data( { features: [ { geometry: { value: 20, coordinates: longlat } } ] } );
+        g.create();
+    });
+
+    function setPos(lnglat)
+    {
+      g.barSvg.data( { features: [ { geometry: { value: 20, coordinates: lnglat } } ] } );
+      g.create();
+    }
+
+    function myclick(elem, event) {
+        var rect = elem.getBoundingClientRect();
+        var x = event.clientX - rect.left;
+        var y = event.clientY - rect.top;
+
+        longlat = g._.proj.invert([x, y]);
+        g.barSvg.data( { features: [ { geometry: { value: 20, coordinates: longlat } } ] } );
+
+        window.chartObject.setLatLong(longlat[1], longlat[0]);
+
+        document.getElementById("longitude").value = longlat[0];
+        document.getElementById("latitude").value = longlat[1];
+
+        g.create();
+        window.chartObject.handleSubmit();
+    }
+
+  </script>
+
+        <span style="display:inline-block; vertical-align: top; ">
+            <p>
+            <label>Date and time</label>
+            <table style="width: 100%"><tr>
+                <td><input style="width: 100%" class="form-control" id="date" name="date" type="date" value="1981-07-13" (datechange)="dc()"></input></td>
+                <td><input style="width: 100%" class="form-control" id="time" name="time" type="time" value="11:22:00"></input></td>
+            </tr></table>
+            </p>
+
+            <p>
+            Use the sliders to adjust time using desired precision. The chart is updated real-time.
+            <table>
+                <tr><td>&nbsp;</td>
+                    <td><datalist id=minutelabels>
                   <option value="0" label="-30"></option>
                   <option value="500" label="0"></option>
                   <option value="1000" label="30"></option>
               </datalist></td></tr>
-          <tr><td style="vertical-align: center">Minutes</td><td style="vertical-align: center"><input class=slider type="range" id="minuteslider" name="slider1" min="0" max="1000" steps=1 value=500 width=500px list=minutelabels></td></tr>
+          <tr><td style="vertical-align: center">Minutes</td><td style="vertical-align: center"><input class=slider type="range" id="minuteslider" name="slider1" min="0" max="1000" steps=1 value=500 width=400px list=minutelabels></td></tr>
           <tr><td>&nbsp;</td>
           <td><datalist id=hourlabels>
                   <option value="0" label="-12"></option>
                   <option value="500" label="0"></option>
                   <option value="1000" label="12"></option>
               </datalist></td></tr>
-          <tr><td>Hours</td><td><input class=slider type="range" id="hourslider" name="slider2" min="0" max="1000" value=500 steps=1 width=500px list=hourlabels><br/></td></tr>
+          <tr><td>Hours</td><td><input class=slider type="range" id="hourslider" name="slider2" min="0" max="1000" value=500 steps=1 width=400px list=hourlabels><br/></td></tr>
           <tr><td>&nbsp;</td>
           <td><datalist id=daylabels>
                   <option value="0" label="-15"></option>
                   <option value="500" label="0"></option>
                   <option value="1000" label="15"></option>
               </datalist></td></tr>
-          <tr><td>Days</td><td><input class=slider type="range" id="dayslider" name="slider3" min="0" max="1000" value=500 steps=1 width=500px list=daylabels><br/></td></tr>
+          <tr><td>Days</td><td><input class=slider type="range" id="dayslider" name="slider3" min="0" max="1000" value=500 steps=1 width=400px list=daylabels><br/></td></tr>
           <tr><td>&nbsp;</td>
           <td><datalist id=monthlabels>
                   <option value="0" label="-6"></option>
                   <option value="500" label="0"></option>
                   <option value="1000" label="6"></option>
               </datalist></td></tr>
-          <tr><td>Months</td><td><input class=slider type="range" id="monthslider" name="slider4" min="0" max="1000" value=500 steps=1 width=500px list=monthlabels><br/></td></tr>
+          <tr><td>Months</td><td><input class=slider type="range" id="monthslider" name="slider4" min="0" max="1000" value=500 steps=1 width=400px list=monthlabels><br/></td></tr>
           <tr><td>&nbsp;</td>
           <td><datalist id=yearlabels>
                   <option value="0" label="-10"></option>
                   <option value="500" label="0"></option>
                   <option value="1000" label="10"></option>
               </datalist></td></tr>
-          <tr><td>Years</td><td><input class=slider type="range" id="yearslider" name="slider4" min="0" max="1000" value=500 steps=1 width=500px list=monthlabels><br/></td></tr>
+          <tr><td>Years</td><td><input class=slider type="range" id="yearslider" name="slider4" min="0" max="1000" value=500 steps=1 width=400px list=monthlabels><br/></td></tr>
       </table>
       <br/>
-<style>
-input.customcheckbox:checked {
-	appearance: none;
-	/*background: linear-gradient(to right, #ccc 0%, #333 100%);*/
-	background: #345;
-}
-input.customcheckbox {
-	appearance: none;
-	width: 2em;
-	height: 2em;
-	/*background: linear-gradient(to right, #333 0%, #ccc 100%);*/
-	background: #ccc;
-	border: 1px solid black;
-	border-radius:5px;
-}
-</style>
       Keep zodiac in fixed position <input class=customcheckbox id=fixedzodiac type=checkbox checked />
-      
+
       <!--<br/>Fun checkbox: <input class=customcheckbox type=checkbox min=0 max=100 steps=1 /> -->
       </span>
 
       <hr />
+
+      <div class="col-6">
+        <div class="form-group">
+          <label>Aspect Orbs:</label>
+          <div class="row">
+            <div class="col-6">
+              <label>Major Aspects</label>
+              <div id="major-aspect-inputs">
+
+              </div>
+            </div>
+            <div class="col-6">
+              <label>Minor Aspects</label>
+              <div id="minor-aspect-inputs">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="row">
         <div class="col-12">
           <div class="form-group">
