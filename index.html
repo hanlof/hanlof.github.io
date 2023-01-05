@@ -3,11 +3,15 @@
 <style>
 @keyframes dropdown { 0% { top: 0px; } 100% { top: 100px; } }
 @keyframes mymove { 0% { right: 0px; } 50% { right: 100px } 100% { right: 0px } }
-@keyframes flash { 0% { text-shadow: 0px 0px 1px #FFF } 100% { text-shadow: 0px 0px 3px #FFF } }
+@keyframes flash { 0% { text-shadow: 0px 0px 0px #000 } 50% { text-shadow: 0px 0px 5px #FF8 } 100% { text-shadow: 0px 0px 0px #000 } }
 @keyframes flash2 { 0% { text-shadow: 1px 1px 0 #000 } 100% { text-shadow: 1px 1px 0 #FFF } }
 @keyframes warning { 0% { color: #F00; } 50% { color: #800; } 100% { color: #F00; } }
-@keyframes spin { 0% {transform:rotate(10deg);} 100% {transform:rotate(360deg);} }
-@keyframes translate { 0% {transform:translate(0);} 100% {transform:translate(70);} }
+@keyframes spin { 0% {transform:rotate(0deg)}
+                  25% {transform:rotate(90deg)}
+                  50% {transform:rotate(180deg)}
+                  75% {transform:rotate(270deg)}
+                  100% {transform:rotate(360deg)} }
+@keyframes translate { 0% {transform:translate(0px, 0px)} 100% {transform:translate(70px, 100px)} }
 .outline { text-shadow: -1px -1px 0 #0F0; }
 </style>
 </head>
@@ -15,10 +19,29 @@
 <body bgcolor="black" onkeydown="keyPressed();" text="white" onload="onLoadCallback();">
 <div id="container" style="position: relative; margin-right: 10%; margin-top: 4em; max-width: 40em; margin-left: 10%; align: center; font-family: monospace; ">
 <pre id="mytext" style="position: relative; font-size: 120%;">
+Hi, Coder!
+
+Programming a.k.a. coding is a craft. If you are a coder then you are a craftsman.
+
+Coding is not and will never be a theoretical science.
+
+As with each and every craft knowledge is beneficial but this
+does not make the art of computer programming a theoretical
+practice any more than plumbing is a theoretical practice.
+
+We need to remember this.
+
+We need to reclaim our craft from the world of academia
+and we need to reclaim our craft from the world of big business.
+
+</pre>
+
+<!--
+<pre>
 Hi coder.
 
 Do you believe that mastering computer
-programming is about understanding 
+programming is about understanding
 class inheritance, templates, patterns,
 the latest and greatest new technology
 and frameworks?!
@@ -26,6 +49,7 @@ Good!
 This site is here to offer you new perspectives!
 We hope that you have an open mind.
 </pre>
+
 <pre>
 It may sound really obvious but it's worth
 reiterating that that computer programming is
@@ -81,6 +105,7 @@ have been offended by these statements.
 
 We hope that you still have an open mind...
 </pre>
+-->
 <div>
 	<!-- play with keys! :-)
         This will not be for everyone. Coders (prople in general) tend to have an ego that prevents us from
@@ -124,27 +149,9 @@ We hope that you still have an open mind...
 -->
 
 </div>
-<div style="position: relative; border: 1px solid grey; align: center;">
-<h2>What is your abstraction level?</h2>
-<!--	<h2 style="color: red;">Global abstraction level: <span style="animation: warning 2s infinite;">HIGH</span></h2> -->
-<!-- <h2>What is your abstraction level?</h2> -->
-<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
-write(STDOUT, "Hello, Hans", 11);
-</pre>
-<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
-printf("Hello, Hans");
-</pre>
-<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
-cout << "Hello, Hans";
-</pre>
-<pre style="border: 1px solid; position: relative; margin-bottom: 0px; margin-top: 0px; ">
-name = "Hans"
-</pre>
 
-</div>
+<button onclick="click1();">X</button>
 
-
-<button onclick="click1();">Click</button>
 <script>
 function findRandomWord(s, minlen)
 {
@@ -152,16 +159,16 @@ function findRandomWord(s, minlen)
   var alts = [];
   for (i = 0; i < s.length; i++) {
     var ok = "\n\t\ ,.".indexOf(s[i]) == -1;
-	if (ok && start == -1) {
-	  start = i;
-	  continue;
-	}
+    if (ok && start == -1) {
+      start = i;
+      continue;
+    }
     if (!ok && start > -1) {
-	  if ((i - start) >= minlen) {
-	    alts.push([start, i]);
-	  }
-	  start = -1;
-	}
+      if ((i - start) >= minlen) {
+        alts.push([start, i]);
+      }
+      start = -1;
+    }
   }
   var r = Math.floor(Math.random() * (alts.length));
   return alts[r];
@@ -182,39 +189,51 @@ var effects = []
 function click1() {
   var mytext = document.getElementById("mytext");
   var originalText = mytext.innerHTML;
-  r = findRandomWord(originalText, 5);
+  wordpos = findRandomWord(originalText, 5);
 
   aName = "anchorElement" + freeElementCounter;
   eName = "freeElement" + freeElementCounter;
   freeElementCounter++;
-  var s = originalText.substr(0, r[0]) + "<span id=" + aName + "><span id=" + eName + ">"
-    + originalText.substr(r[0], r[1] - r[0]) + "</span></span>" + mytext.innerHTML.substr(r[1]);
+  var s = originalText.substr(0, wordpos[0]) + "<span id=" + aName + "><span id=" + eName + ">"
+    + originalText.substr(wordpos[0], wordpos[1] - wordpos[0]) + "</span></span>" + mytext.innerHTML.substr(wordpos[1]);
 
   mytext.innerHTML = s;
 
   var anchorElement = document.getElementById(aName);
   var ofsX = anchorElement.offsetLeft + anchorElement.parentNode.offsetLeft;
   var ofsY = anchorElement.offsetTop + anchorElement.parentNode.offsetTop;
-  mytext.innerHTML = originalText.substr(0, r[0]) + (" ".repeat(r[1] - r[0])) + originalText.substr(r[1]);
+  mytext.innerHTML = originalText.substr(0, wordpos[0]) + (" ".repeat(wordpos[1] - wordpos[0])) + originalText.substr(wordpos[1]);
 
+  anchorElement.style.fontSize = mytext.style.fontSize;
   anchorElement.style.position = "absolute"
   anchorElement.style.left = ofsX + "px"
   anchorElement.style.top = ofsY + "px"
-  //anchorElement.style.animation = "spin 0.5s";
   anchorElement.style.zIndex = "4";
   mytext.insertAdjacentElement("afterend", anchorElement);
 
   var fE = document.getElementById(eName);
-  fE.addEventListener("animationend", reInsertElem.bind(fE, mytext, r[0]) );
+  fE.style.fontSize = "100%";
   fE.style.position = "relative";
   fE.style.backgroundColor = "rgba(0,0,0,0)";
   fE.style.backgroundRepeat = "repeat";
   fE.style.zIndex = "5";
   fE.style.textShadow = "0px 0px 2px black";
-  fE.style.animation = "dropdown 1s";
-  //fE.style.animation = "translate 3s";
-  //fE.style.transformOrigin = "0 0";
-  //fE.style.transform = "rotate(45deg)";
+  fE.addEventListener("animationend", reInsertElem.bind(fE, mytext, wordpos[0]) );
+  var effect = Math.floor(Math.random() * 4);
+  switch (effect) {
+    case 0:
+      //fE.style.animation = "dropdown 1s";
+      break;
+    case 1:
+      fE.style.animation = "flash 2s";
+      break;
+    case 2:
+      anchorElement.style.animation = "spin 0.5s";
+      break;
+    case 3:
+      anchorElement.style.animation = "translate 1s";
+      break;
+  }
 }
 
 function startAnimation()
@@ -233,7 +252,7 @@ function onLoadCallback()
 function keyPressed()
 {
 	var event = window.event ? window.event : e;
-	console.log("kalle " + event + " " + event.keyCode);
+	console.log("keypress" + event + " " + event.keyCode);
 	// left up right down
 	// 37 38 39 40
 }
